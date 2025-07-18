@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    container_name: ordersadapter-app
+    ports:
+      - "8085:8085"
+    depends_on:
+      - mongodb
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://admin:admi123@mongodb:27017/ordersdb?authSource=admin
+    networks:
+      - ordersadapter-network
+
+  mongodb:
+    image: mongo:7.0
+    container_name: ordersadapter-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admi123
+      - MONGO_INITDB_DATABASE=ordersdb
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - ordersadapter-network
+
+networks:
+  ordersadapter-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
