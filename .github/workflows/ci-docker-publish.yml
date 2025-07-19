@@ -1,0 +1,38 @@
+name: CI Docker Hub Publish
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  publish-docker-image:
+    name: Publish Docker Image to Docker Hub
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract Docker metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: rakeobrto/orders-adapter
+          tags: |
+            type=raw,value=latest
+            type=sha,enable={{is_default_branch}},prefix=
+            type=ref,event=branch
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
