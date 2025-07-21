@@ -1,7 +1,9 @@
 package com.devbrito.luizalabs.ordersadapter.service;
 
 import com.devbrito.luizalabs.ordersadapter.domain.document.Order;
+import com.devbrito.luizalabs.ordersadapter.domain.dto.OrderResponseDTO;
 import com.devbrito.luizalabs.ordersadapter.domain.dto.UserOrdersResponseDTO;
+import com.devbrito.luizalabs.ordersadapter.exceptions.OrderNotFoundException;
 import com.devbrito.luizalabs.ordersadapter.mapper.OrderMapper;
 import com.devbrito.luizalabs.ordersadapter.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -39,5 +41,11 @@ public class OrderService {
                 .entrySet().stream()
                 .map(entry -> orderMapper.toUserResponseDTO(entry.getKey(), entry.getValue()))
                 .toList();
+    }
+
+    public OrderResponseDTO findById(Integer orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
+        return orderMapper.toOrderResponseDTO(order);
     }
 }
