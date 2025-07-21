@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,10 +21,12 @@ import java.util.List;
 public class Order {
 
     @Id
-    private Long orderId;
+    private Integer orderId;
     private Integer userId;
     private String userName;
-    public List<Product> products;
+    private List<Product> products;
+
+    @Field(targetType = FieldType.DECIMAL128)
     private BigDecimal total;
     private LocalDate date;
 }
