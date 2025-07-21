@@ -1,8 +1,11 @@
 package com.devbrito.luizalabs.ordersadapter.controller;
 
+import com.devbrito.luizalabs.ordersadapter.domain.dto.OrderResponseDTO;
 import com.devbrito.luizalabs.ordersadapter.domain.dto.UserOrdersResponseDTO;
 import com.devbrito.luizalabs.ordersadapter.service.OrderService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,5 +32,10 @@ public class OrderController {
 
         List<UserOrdersResponseDTO> orders = orderService.saveAll(file);
         return ResponseEntity.ok().body(orders);
+    }
+
+    @GetMapping("/{orderId}")
+    ResponseEntity<OrderResponseDTO> findById(@PathVariable("orderId") Integer orderId) {
+        return ResponseEntity.ok().body(orderService.findById(orderId));
     }
 }

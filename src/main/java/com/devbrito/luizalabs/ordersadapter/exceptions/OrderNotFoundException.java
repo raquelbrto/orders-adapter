@@ -2,7 +2,7 @@ package com.devbrito.luizalabs.ordersadapter.exceptions;
 
 public class OrderNotFoundException extends RuntimeException {
 
-    public OrderNotFoundException(Long id) {
+    public OrderNotFoundException(Integer id) {
         super("Order not found with id: " + id);
     }
 
