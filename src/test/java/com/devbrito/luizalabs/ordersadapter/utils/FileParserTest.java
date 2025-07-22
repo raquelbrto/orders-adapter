@@ -2,6 +2,7 @@ package com.devbrito.luizalabs.ordersadapter.utils;
 
 import com.devbrito.luizalabs.ordersadapter.domain.document.Product;
 import com.devbrito.luizalabs.ordersadapter.domain.dto.OrderParserDTO;
+import com.devbrito.luizalabs.ordersadapter.exceptions.FileEmptyException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,5 +39,15 @@ class FileParserTest {
         Assertions.assertEquals(12345, orders.get(0).orderId());
         Assertions.assertEquals(product, orders.get(0).product());
         Assertions.assertEquals(LocalDate.parse("2020-12-01"), orders.get(0).date());
+    }
+
+    @Test
+    void testParseFileThrowsExceptionWhenFileIsEmpty() {
+        MultipartFile emptyFile = new MockMultipartFile("empty.txt", new byte[0]);
+        FileEmptyException exception = Assertions.assertThrows(FileEmptyException.class, () -> {
+            fileParser.parseFile(emptyFile);
+        });
+
+        Assertions.assertEquals("File is empty: " + emptyFile.getName(), exception.getMessage());
     }
 }

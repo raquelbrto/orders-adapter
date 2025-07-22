@@ -2,6 +2,7 @@ package com.devbrito.luizalabs.ordersadapter.utils;
 
 import com.devbrito.luizalabs.ordersadapter.domain.document.Product;
 import com.devbrito.luizalabs.ordersadapter.domain.dto.OrderParserDTO;
+import com.devbrito.luizalabs.ordersadapter.exceptions.FileEmptyException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -70,7 +71,7 @@ public class FileParser {
 
     public List<OrderParserDTO> parseFile(MultipartFile orderFile) throws IOException {
         if (orderFile.isEmpty() || orderFile.getSize() == 0L) {
-            throw new IllegalArgumentException("File is empty or size is 0");
+            throw new FileEmptyException(orderFile.getName());
         }
 
         List<OrderParserDTO> orderParserDTO = new ArrayList<>();
