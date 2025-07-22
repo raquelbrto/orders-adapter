@@ -8,6 +8,7 @@ import com.devbrito.luizalabs.ordersadapter.exceptions.OrderNotFoundException;
 import com.devbrito.luizalabs.ordersadapter.mapper.OrderMapper;
 import com.devbrito.luizalabs.ordersadapter.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,6 +47,7 @@ public class OrderService {
                 .toList();
     }
 
+    @Cacheable(value = "order", key = "#orderId")
     public OrderResponseDTO findById(Integer orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException(orderId));
