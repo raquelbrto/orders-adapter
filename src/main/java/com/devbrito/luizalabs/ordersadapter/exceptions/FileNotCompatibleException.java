@@ -9,8 +9,4 @@ public class FileNotCompatibleException extends RuntimeException {
     public FileNotCompatibleException(String message) {
         super(message);
     }
-    
-    public FileNotCompatibleException(String message, Throwable cause) {
-        super(message, cause);
-    }
 } 
