@@ -11,6 +11,21 @@ jobs:
     name: Build, Test, Docker
     runs-on: ubuntu-latest
 
+    services:
+      mongodb:
+        image: mongo:7.0
+        ports:
+          - 27018:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: admin
+          MONGO_INITDB_ROOT_PASSWORD: admi123
+          MONGO_INITDB_DATABASE: ordersdb_test
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
@@ -25,6 +40,8 @@ jobs:
         run: mvn dependency:go-offline
 
       - name: Build and test
+        env:
+          SPRING_DATA_MONGODB_URI: mongodb://admin:admi123@localhost:27018/ordersdb_test?authSource=admin
         run: mvn clean verify
 
       - name: Upload Jacoco report

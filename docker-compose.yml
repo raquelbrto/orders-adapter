@@ -27,9 +27,32 @@ services:
     networks:
       - ordersadapter-network
 
+  mongodb-test:
+    image: mongo:7.0
+    container_name: ordersadapter-mongodb-test
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admi123
+      - MONGO_INITDB_DATABASE=ordersdb_test
+    networks:
+      - ordersadapter-network
+    volumes:
+      - mongo-data-test:/data/db
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: ordersadapter-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ordersadapter-network
+
 networks:
   ordersadapter-network:
     driver: bridge
 
 volumes:
   mongo-data:
+  mongo-data-test:
