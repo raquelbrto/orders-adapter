@@ -1,4 +1,4 @@
-# Desafio
+# Orders Adapter API - Desafio 
 
 API REST desenvolvida com Java 17 e Spring Boot, a API recebe um arquivo de
 pedidos desnormalizado e retorna um json normalizado seguindo os padrões dos requisitos do desafio.
@@ -40,13 +40,6 @@ pedidos desnormalizado e retorna um json normalizado seguindo os padrões dos re
    ```bash
    docker compose up --build
    ```   
-# Docker hub
-
-Executando com a imagem do docker hub, projeto disponivel em: [`rakeobrto/orders-adapter`](https://hub.docker.com/r/rakeobrto/orders-adapter)
-
-  ```bash
-  docker run rakeobrto/orders-adapter:latest
-  ```
 
 # Documentação da API
 
@@ -349,3 +342,13 @@ retornar os dados normalizados. É possivel vizualizar um pouco de como foi pens
 
 Foram feitos testes unitarios e de integração, é possivel ver o relatorio dos testes baixando o artefato jacoco-report gerado 
 pelo git hub actions ou quando rodar o projeto localmente.
+
+# Docker hub
+
+Imagem disponivel em: [`rakeobrto/orders-adapter`](https://hub.docker.com/r/rakeobrto/orders-adapter)
+
+Baixe a imagem:
+
+   ```bash
+   docker pull rakeobrto/orders-adapter:latest
+   ```
